@@ -1,0 +1,47 @@
+# Google Cloud Project Configuration
+project:
+  id: "mlops-295610"  # Your new MLOps project ID
+  region: "us-central1"   # Default region for resources
+  zone: "us-central1-a"   # Default zone
+
+# Storage Configuration
+storage:
+  bucket_name: "mlops-295610-mlops-bucket"  # Unique bucket name for your project
+  data_path: "data/"
+  models_path: "models/"
+  pipelines_path: "pipelines/"
+  outputs_path: "outputs/"
+
+# Vertex AI Configuration
+vertex_ai:
+  region: "us-central1"
+  staging_bucket: "your-project-mlops-bucket"
+  
+  # Training Configuration
+  training:
+    machine_type: "n1-standard-4"  # Use smaller instances for development
+    accelerator_type: null  # Use null for CPU-only, or "NVIDIA_TESLA_T4" for GPU
+    accelerator_count: 0
+    
+  # Endpoint Configuration  
+  prediction:
+    machine_type: "n1-standard-2"
+    min_replica_count: 1
+    max_replica_count: 1
+    
+# Pipeline Configuration
+pipeline:
+  name: "mlops-demo-pipeline"
+  description: "End-to-end MLOps pipeline demo"
+  
+# Model Configuration
+model:
+  name: "image-classifier"
+  framework: "tensorflow"
+  python_version: "3.8"
+  
+# Cost Management
+cost_management:
+  enable_billing_alerts: true
+  daily_budget_limit: 10  # USD
+  monthly_budget_limit: 50  # USD

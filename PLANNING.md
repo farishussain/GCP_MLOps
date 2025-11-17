@@ -1,44 +1,44 @@
-# Cloud MLOps - Amazon SageMaker Pipeline Demo
+# Cloud MLOps - Google Vertex AI Pipeline Demo
 
 ## Overview
-This project rebuilds an end-to-end Amazon SageMaker MLOps pipeline demonstrating the complete machine learning lifecycle from data annotation to model deployment and endpoint creation. The goal is to create a simplified, local development-friendly implementation that showcases SageMaker's core MLOps capabilities.
+This project builds an end-to-end Google Vertex AI MLOps pipeline demonstrating the complete machine learning lifecycle from data annotation to model deployment and endpoint creation. The goal is to create a simplified, local development-friendly implementation that showcases Vertex AI's core MLOps capabilities.
 
 ## Project Scope
 - **End-to-End ML Pipeline**: Data preparation → Training → Model evaluation → Deployment → Monitoring
 - **Local Development Focus**: Minimal cloud costs, development-oriented setup
-- **Educational Purpose**: Clear demonstration of SageMaker MLOps best practices
+- **Educational Purpose**: Clear demonstration of Vertex AI MLOps best practices
 - **Simple Implementation**: No advanced features, focus on core workflow
 
 ## Technical Architecture
 
 ### Core Components
 1. **Data Pipeline**
-   - Data annotation/labeling workflow
+   - Data annotation/labeling workflow with Vertex AI Data Labeling
    - Data validation and preprocessing
-   - Feature engineering
+   - Feature engineering with Feature Store
 
 2. **Training Pipeline**
-   - Model training with SageMaker Training Jobs
-   - Hyperparameter optimization
+   - Custom training jobs with Vertex AI Training
+   - Hyperparameter tuning with Vertex AI Vizier
    - Model evaluation and validation
 
 3. **Deployment Pipeline**
-   - Model registry for version management
+   - Model Registry for version management
    - Automated endpoint deployment
-   - Basic monitoring setup
+   - Basic monitoring with Model Monitoring
 
 4. **Orchestration**
-   - SageMaker Pipelines for workflow automation
-   - CI/CD integration (basic)
+   - Vertex AI Pipelines (Kubeflow-based) for workflow automation
+   - CI/CD integration with Cloud Build
 
 ### Technology Stack
-- **Primary**: Amazon SageMaker (Pipelines, Training, Endpoints, Model Registry)
-- **SDK**: SageMaker Python SDK, Boto3
-- **Development**: Jupyter Notebooks, Python 3.8+
-- **Storage**: Amazon S3
-- **Orchestration**: SageMaker Pipelines
-- **Monitoring**: SageMaker Model Monitor (basic setup)
-- **Infrastructure**: AWS CLI, IAM roles
+- **Primary**: Google Vertex AI (Pipelines, Training, Endpoints, Model Registry)
+- **SDK**: Vertex AI Python SDK, Google Cloud SDK
+- **Development**: Jupyter Notebooks, Vertex AI Workbench, Python 3.8+
+- **Storage**: Google Cloud Storage (GCS)
+- **Orchestration**: Vertex AI Pipelines (KFP)
+- **Monitoring**: Vertex AI Model Monitoring
+- **Infrastructure**: gcloud CLI, IAM service accounts
 
 ### Sample Use Case
 **Image Classification Pipeline** (keeping it simple)
@@ -49,43 +49,43 @@ This project rebuilds an end-to-end Amazon SageMaker MLOps pipeline demonstratin
 ## Development Approach
 
 ### Phase 1: Foundation
-- AWS account setup and IAM configuration
-- SageMaker Studio environment
-- S3 bucket configuration
+- Google Cloud project setup and IAM configuration
+- Vertex AI Workbench environment
+- GCS bucket configuration
 - Basic data pipeline
 
 ### Phase 2: Core Pipeline
 - Data preprocessing and feature engineering
-- Model training pipeline
-- Basic evaluation metrics
+- Custom training pipeline with Vertex AI Training
+- Basic evaluation metrics with Vertex AI TensorBoard
 
 ### Phase 3: MLOps Integration
-- SageMaker Pipelines implementation
-- Model registry integration
+- Vertex AI Pipelines implementation (KFP)
+- Model Registry integration
 - Automated deployment
 
 ### Phase 4: Monitoring & Operations
-- Basic model monitoring
+- Vertex AI Model Monitoring setup
 - Endpoint management
-- Simple CI/CD workflow
+- Simple CI/CD workflow with Cloud Build
 
 ## Success Criteria
 - [ ] Complete end-to-end pipeline execution
-- [ ] Automated model deployment to endpoint
+- [ ] Automated model deployment to Vertex AI Endpoint
 - [ ] Working inference endpoint with sample predictions
 - [ ] Basic model monitoring dashboard
 - [ ] Documented pipeline steps and configuration
-- [ ] Cost-effective development setup (minimal AWS charges)
+- [ ] Cost-effective development setup (minimal GCP charges)
 
 ## Constraints & Considerations
-- **Budget**: Minimize AWS costs for local development
+- **Budget**: Minimize GCP costs for local development
 - **Complexity**: Keep implementation simple and educational
 - **Time**: Focus on core MLOps concepts, avoid advanced features
 - **Data**: Use small, public datasets to avoid data management complexity
 - **Security**: Basic IAM setup, no advanced security features initially
 
 ## Learning Objectives
-- Understand SageMaker Pipelines workflow orchestration
-- Experience with SageMaker Training and Inference
-- Learn MLOps best practices with AWS tools
+- Understand Vertex AI Pipelines (KFP) workflow orchestration
+- Experience with Vertex AI Training and Prediction
+- Learn MLOps best practices with Google Cloud tools
 - Gain hands-on experience with model lifecycle management
