@@ -8,13 +8,14 @@ project:
 
 # Google Cloud Configuration  
 gcp:
-  project_id: "mlops-295610"  # Replace with your project ID
+  project_id: "mlops-295610"
   region: "us-central1"
   zone: "us-central1-a"
+  service_account: "mlops-service-account@mlops-295610.iam.gserviceaccount.com"
   
 # Cloud Storage Configuration
 storage:
-  bucket_name: "mlops-vertex-ai-bucket-295610"  # Replace with your bucket
+  bucket_name: "mlops-vertex-ai-bucket-1763645074"
   data_path: "data/"
   models_path: "models/"
   pipelines_path: "pipelines/"
@@ -23,7 +24,7 @@ storage:
 # Vertex AI Configuration
 vertex_ai:
   location: "us-central1"
-  staging_bucket: "mlops-vertex-ai-bucket-295610"  # Replace with your bucket
+  staging_bucket: "mlops-vertex-ai-bucket-1763645074"
   
 # Model Configuration
 model:

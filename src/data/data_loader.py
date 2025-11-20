@@ -1,238 +1,192 @@
 """
-Data loading utilities for the MLOps pipeline.
+Data loading utilities for MLOps pipeline.
 
-This module provides classes and functions for loading data from various sources
-including local files, Google Cloud Storage, and databases.
+This module provides data loading capabilities including:
+- Loading datasets from various sources
+- Data format validation
+- Cloud storage integration
+- Caching mechanisms
 """
 
-import os
-import pickle
+import logging
 import pandas as pd
 import numpy as np
 from pathlib import Path
-from typing import Tuple, Optional, Dict, Any
-from io import BytesIO
-from google.cloud import storage
-from sklearn.datasets import load_iris
-from sklearn.utils import Bunch
+from typing import Tuple, Optional, Dict, Any, Union
+from sklearn.datasets import load_iris, load_wine, load_breast_cancer
+from sklearn.model_selection import train_test_split
 
-from ..config import config
-from ..utils import setup_logging
-
-logger = setup_logging()
-
+logger = logging.getLogger(__name__)
 
 class DataLoader:
-    """
-    Data loader for handling various data sources.
+    """Data loading utility class."""
     
-    Supports loading from:
-    - Local files (CSV, NPZ, Pickle)
-    - Google Cloud Storage
-    - Built-in datasets (Iris, etc.)
-    """
-    
-    def __init__(self, project_id: Optional[str] = None, bucket_name: Optional[str] = None):
+    def __init__(self):
+        self.supported_datasets = [
+            'iris', 'wine', 'breast_cancer'
+        ]
+        
+    def load_dataset(
+        self, 
+        dataset_name: str,
+        test_size: float = 0.2,
+        random_state: int = 42
+    ) -> Tuple[pd.DataFrame, pd.Series, pd.DataFrame, pd.Series]:
         """
-        Initialize DataLoader.
+        Load a dataset and split into train/test sets.
         
         Args:
-            project_id (str): Google Cloud project ID.
-            bucket_name (str): GCS bucket name.
-        """
-        self.project_id = project_id or config.project_id
-        self.bucket_name = bucket_name or config.bucket_name
-        
-        if self.project_id and self.bucket_name:
-            try:
-                self.storage_client = storage.Client(project=self.project_id)
-                self.bucket = self.storage_client.bucket(self.bucket_name)
-                logger.info(f"Initialized GCS client for project: {self.project_id}")
-            except Exception as e:
-                logger.warning(f"Failed to initialize GCS client: {e}")
-                self.storage_client = None
-                self.bucket = None
-    
-    def load_iris_dataset(self, include_target_names: bool = True) -> Tuple[pd.DataFrame, Dict[str, Any]]:
-        """
-        Load the Iris dataset.
-        
-        Args:
-            include_target_names (bool): Whether to include target names in DataFrame.
+            dataset_name: Name of the dataset to load.
+            test_size: Proportion of dataset to include in test split.
+            random_state: Random state for reproducibility.
             
         Returns:
-            Tuple[pd.DataFrame, Dict[str, Any]]: DataFrame and metadata.
+            Tuple containing X_train, X_test, y_train, y_test.
         """
-        logger.info("Loading Iris dataset...")
+        logger.info(f"Loading dataset: {dataset_name}")
         
-        iris_data = load_iris()
+        if dataset_name == 'iris':
+            data = load_iris()
+        elif dataset_name == 'wine':
+            data = load_wine()
+        elif dataset_name == 'breast_cancer':
+            data = load_breast_cancer()
+        else:
+            raise ValueError(f"Unsupported dataset: {dataset_name}")
+            
+        # Convert to DataFrame - sklearn returns Bunch objects
+        X = pd.DataFrame(data.data, columns=data.feature_names)  # type: ignore
+        y = pd.Series(data.target, name='target')  # type: ignore
         
-        # Create DataFrame
-        df = pd.DataFrame(iris_data.data, columns=iris_data.feature_names)
-        df['target'] = iris_data.target
+        # Split the data
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=test_size, random_state=random_state, stratify=y
+        )
         
-        if include_target_names:
-            df['target_name'] = df['target'].map(
-                {i: name for i, name in enumerate(iris_data.target_names)}
-            )
+        logger.info(f"Dataset loaded successfully. "
+                   f"Training samples: {len(X_train)}, "
+                   f"Test samples: {len(X_test)}")
         
-        # Create metadata
-        metadata = {
-            'dataset_name': 'iris',
-            'description': 'Iris flower classification dataset',
-            'n_samples': len(iris_data.data),
-            'n_features': iris_data.data.shape[1],
-            'n_classes': len(iris_data.target_names),
-            'feature_names': list(iris_data.feature_names),
-            'target_names': list(iris_data.target_names),
-            'source': 'sklearn.datasets'
+        return X_train, X_test, y_train, y_test
+    
+    def load_from_csv(
+        self,
+        file_path: str,
+        target_column: str,
+        test_size: float = 0.2,
+        random_state: int = 42
+    ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+        """
+        Load dataset from CSV file.
+        
+        Args:
+            file_path: Path to CSV file.
+            target_column: Name of the target column.
+            test_size: Proportion of dataset to include in test split.
+            random_state: Random state for reproducibility.
+            
+        Returns:
+            Tuple containing X_train, X_test, y_train, y_test.
+        """
+        logger.info(f"Loading data from CSV: {file_path}")
+        
+        # Load data
+        df = pd.read_csv(file_path)
+        
+        # Separate features and target
+        X = df.drop(columns=[target_column])
+        y = df[target_column]
+        
+        # Split the data
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=test_size, random_state=random_state
+        )
+        
+        logger.info(f"CSV data loaded successfully. "
+                   f"Training samples: {len(X_train)}, "
+                   f"Test samples: {len(X_test)}")
+        
+        return X_train, X_test, y_train, y_test
+    
+    def get_dataset_info(self, dataset_name: str) -> Dict[str, Any]:
+        """
+        Get information about a dataset.
+        
+        Args:
+            dataset_name: Name of the dataset.
+            
+        Returns:
+            Dict containing dataset information.
+        """
+        if dataset_name not in self.supported_datasets:
+            raise ValueError(f"Unsupported dataset: {dataset_name}")
+            
+        if dataset_name == 'iris':
+            data = load_iris()
+        elif dataset_name == 'wine':
+            data = load_wine()
+        elif dataset_name == 'breast_cancer':
+            data = load_breast_cancer()
+            
+        return {
+            'name': dataset_name,
+            'description': data.DESCR[:200] + '...' if len(data.DESCR) > 200 else data.DESCR,  # type: ignore
+            'n_samples': data.data.shape[0],  # type: ignore
+            'n_features': data.data.shape[1],  # type: ignore
+            'n_classes': len(np.unique(data.target)),  # type: ignore
+            'feature_names': list(data.feature_names),  # type: ignore
+            'target_names': list(data.target_names) if hasattr(data, 'target_names') else []  # type: ignore
         }
-        
-        logger.info(f"Loaded Iris dataset: {metadata['n_samples']} samples, "
-                   f"{metadata['n_features']} features, {metadata['n_classes']} classes")
-        
-        return df, metadata
     
-    def load_from_csv(self, file_path: str, **kwargs) -> pd.DataFrame:
+    def save_dataset(
+        self,
+        X_train: pd.DataFrame,
+        X_test: pd.DataFrame,
+        y_train: pd.Series,
+        y_test: pd.Series,
+        output_dir: str
+    ) -> None:
         """
-        Load data from CSV file.
+        Save dataset splits to files.
         
         Args:
-            file_path (str): Path to CSV file (local or GCS).
-            **kwargs: Additional arguments for pd.read_csv.
+            X_train: Training features.
+            X_test: Test features.
+            y_train: Training targets.
+            y_test: Test targets.
+            output_dir: Directory to save files.
+        """
+        output_path = Path(output_dir)
+        output_path.mkdir(parents=True, exist_ok=True)
+        
+        # Save datasets
+        X_train.to_csv(output_path / 'X_train.csv', index=False)
+        X_test.to_csv(output_path / 'X_test.csv', index=False)
+        y_train.to_csv(output_path / 'y_train.csv', index=False)
+        y_test.to_csv(output_path / 'y_test.csv', index=False)
+        
+        logger.info(f"Dataset splits saved to {output_dir}")
+    
+    def load_saved_dataset(
+        self, 
+        data_dir: str
+    ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+        """
+        Load previously saved dataset splits.
+        
+        Args:
+            data_dir: Directory containing saved dataset files.
             
         Returns:
-            pd.DataFrame: Loaded DataFrame.
+            Tuple containing X_train, X_test, y_train, y_test.
         """
-        if file_path.startswith('gs://'):
-            # Load from GCS
-            return self._load_csv_from_gcs(file_path, **kwargs)
-        else:
-            # Load from local file
-            logger.info(f"Loading CSV from local file: {file_path}")
-            return pd.read_csv(file_path, **kwargs)
-    
-    def load_from_numpy(self, file_path: str) -> Dict[str, np.ndarray]:
-        """
-        Load data from NumPy .npz file.
+        data_path = Path(data_dir)
         
-        Args:
-            file_path (str): Path to .npz file (local or GCS).
-            
-        Returns:
-            Dict[str, np.ndarray]: Dictionary of arrays.
-        """
-        if file_path.startswith('gs://'):
-            # Load from GCS
-            return self._load_numpy_from_gcs(file_path)
-        else:
-            # Load from local file
-            logger.info(f"Loading NumPy arrays from: {file_path}")
-            return dict(np.load(file_path))
-    
-    def load_from_pickle(self, file_path: str) -> Any:
-        """
-        Load data from pickle file.
+        X_train = pd.read_csv(data_path / 'X_train.csv')
+        X_test = pd.read_csv(data_path / 'X_test.csv')
+        y_train = pd.read_csv(data_path / 'y_train.csv').squeeze()
+        y_test = pd.read_csv(data_path / 'y_test.csv').squeeze()
         
-        Args:
-            file_path (str): Path to pickle file (local or GCS).
-            
-        Returns:
-            Any: Pickled object.
-        """
-        if file_path.startswith('gs://'):
-            # Load from GCS
-            return self._load_pickle_from_gcs(file_path)
-        else:
-            # Load from local file
-            logger.info(f"Loading pickle from: {file_path}")
-            with open(file_path, 'rb') as f:
-                return pickle.load(f)
-    
-    def _load_csv_from_gcs(self, gcs_path: str, **kwargs) -> pd.DataFrame:
-        """Load CSV from Google Cloud Storage."""
-        if not self.bucket:
-            raise RuntimeError("GCS client not initialized")
+        logger.info(f"Dataset splits loaded from {data_dir}")
         
-        # Remove gs://bucket/ prefix
-        blob_name = gcs_path.replace(f'gs://{self.bucket_name}/', '')
-        blob = self.bucket.blob(blob_name)
-        
-        logger.info(f"Loading CSV from GCS: {gcs_path}")
-        
-        # Download to memory and read with pandas
-        content = blob.download_as_bytes()
-        return pd.read_csv(BytesIO(content), **kwargs)
-    
-    def _load_numpy_from_gcs(self, gcs_path: str) -> Dict[str, np.ndarray]:
-        """Load NumPy arrays from Google Cloud Storage."""
-        if not self.bucket:
-            raise RuntimeError("GCS client not initialized")
-        
-        # Remove gs://bucket/ prefix
-        blob_name = gcs_path.replace(f'gs://{self.bucket_name}/', '')
-        blob = self.bucket.blob(blob_name)
-        
-        logger.info(f"Loading NumPy arrays from GCS: {gcs_path}")
-        
-        # Download to temporary file and load
-        import tempfile
-        with tempfile.NamedTemporaryFile() as tmp:
-            blob.download_to_filename(tmp.name)
-            return dict(np.load(tmp.name))
-    
-    def _load_pickle_from_gcs(self, gcs_path: str) -> Any:
-        """Load pickle from Google Cloud Storage."""
-        if not self.bucket:
-            raise RuntimeError("GCS client not initialized")
-        
-        # Remove gs://bucket/ prefix
-        blob_name = gcs_path.replace(f'gs://{self.bucket_name}/', '')
-        blob = self.bucket.blob(blob_name)
-        
-        logger.info(f"Loading pickle from GCS: {gcs_path}")
-        
-        # Download to memory and unpickle
-        content = blob.download_as_bytes()
-        return pickle.loads(content)
-    
-    def save_to_gcs(self, data: Any, gcs_path: str, format: str = 'pickle') -> None:
-        """
-        Save data to Google Cloud Storage.
-        
-        Args:
-            data (Any): Data to save.
-            gcs_path (str): GCS path (gs://bucket/path).
-            format (str): Save format ('pickle', 'csv', 'numpy').
-        """
-        if not self.bucket:
-            raise RuntimeError("GCS client not initialized")
-        
-        # Remove gs://bucket/ prefix
-        blob_name = gcs_path.replace(f'gs://{self.bucket_name}/', '')
-        blob = self.bucket.blob(blob_name)
-        
-        logger.info(f"Saving data to GCS: {gcs_path} (format: {format})")
-        
-        if format == 'pickle':
-            # Save as pickle
-            blob.upload_from_string(pickle.dumps(data))
-        elif format == 'csv':
-            # Save as CSV (assumes data is DataFrame)
-            if not isinstance(data, pd.DataFrame):
-                raise ValueError("Data must be DataFrame for CSV format")
-            blob.upload_from_string(data.to_csv(index=False))
-        elif format == 'numpy':
-            # Save as NumPy (assumes data is dict of arrays)
-            import tempfile
-            with tempfile.NamedTemporaryFile() as tmp:
-                if isinstance(data, dict):
-                    np.savez(tmp.name, **data)
-                else:
-                    np.save(tmp.name, data)
-                tmp.seek(0)
-                blob.upload_from_filename(tmp.name)
-        else:
-            raise ValueError(f"Unsupported format: {format}")
-        
-        logger.info(f"Successfully saved data to GCS: {gcs_path}")
+        return X_train, X_test, y_train, y_test
