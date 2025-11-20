@@ -1,0 +1,44 @@
+{
+  "model_info": {
+    "name": "Logistic Regression",
+    "algorithm": "Logistic Regression",
+    "version": "1.0.0",
+    "training_date": "2025-11-20T16:08:55.143586",
+    "random_state": 42
+  },
+  "performance": {
+    "test_accuracy": 1.0,
+    "cv_mean": 0.9666666666666668,
+    "cv_std": 0.031180478223116186,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1_score": 1.0,
+    "training_time": 0.06182
+  },
+  "data_info": {
+    "training_samples": 120,
+    "test_samples": 30,
+    "features": [
+      "sepal length (cm)",
+      "sepal width (cm)",
+      "petal length (cm)",
+      "petal width (cm)"
+    ],
+    "target_classes": [
+      0,
+      1,
+      2
+    ],
+    "feature_count": 4,
+    "class_count": 3
+  },
+  "hyperparameters": {
+    "C": 10.0,
+    "solver": "lbfgs"
+  },
+  "files": {
+    "model_file": "../models/best_model_20251120_160855.pkl",
+    "results_file": "../models/training_results_20251120_160855.pkl",
+    "all_models_file": "../models/all_models_20251120_160855.pkl"
+  }
+}

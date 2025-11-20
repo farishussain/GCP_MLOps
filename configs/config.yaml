@@ -1,12 +1,20 @@
-# Google Cloud Project Configuration
-project:
-  id: "mlops-295610"  # Your new MLOps project ID
-  region: "us-central1"   # Default region for resources
-  zone: "us-central1-a"   # Default zone
+# Google Cloud MLOps Configuration
 
-# Storage Configuration
+# Project Settings
+project:
+  name: "mlops-demo"
+  description: "End-to-end MLOps pipeline with Google Vertex AI"
+  version: "1.0.0"
+
+# Google Cloud Configuration  
+gcp:
+  project_id: "mlops-295610"  # Replace with your project ID
+  region: "us-central1"
+  zone: "us-central1-a"
+  
+# Cloud Storage Configuration
 storage:
-  bucket_name: "mlops-295610-mlops-bucket"  # Unique bucket name for your project
+  bucket_name: "mlops-vertex-ai-bucket-295610"  # Replace with your bucket
   data_path: "data/"
   models_path: "models/"
   pipelines_path: "pipelines/"
@@ -14,34 +22,27 @@ storage:
 
 # Vertex AI Configuration
 vertex_ai:
-  region: "us-central1"
-  staging_bucket: "your-project-mlops-bucket"
-  
-  # Training Configuration
-  training:
-    machine_type: "n1-standard-4"  # Use smaller instances for development
-    accelerator_type: null  # Use null for CPU-only, or "NVIDIA_TESLA_T4" for GPU
-    accelerator_count: 0
-    
-  # Endpoint Configuration  
-  prediction:
-    machine_type: "n1-standard-2"
-    min_replica_count: 1
-    max_replica_count: 1
-    
-# Pipeline Configuration
-pipeline:
-  name: "mlops-demo-pipeline"
-  description: "End-to-end MLOps pipeline demo"
+  location: "us-central1"
+  staging_bucket: "mlops-vertex-ai-bucket-295610"  # Replace with your bucket
   
 # Model Configuration
 model:
-  name: "image-classifier"
-  framework: "tensorflow"
-  python_version: "3.8"
+  name: "iris-classifier"
+  framework: "scikit-learn"
+  version: "v1.0"
   
-# Cost Management
-cost_management:
-  enable_billing_alerts: true
-  daily_budget_limit: 10  # USD
-  monthly_budget_limit: 50  # USD
+# Training Configuration  
+training:
+  dataset: "iris"
+  test_size: 0.2
+  random_state: 42
+  
+# Pipeline Configuration
+pipeline:
+  name: "iris-mlops-pipeline"
+  description: "End-to-end Iris classification pipeline"
+  
+# Container Configuration
+container:
+  image_uri: "us-central1-docker.pkg.dev/mlops-295610/mlops-training/iris-trainer"
+  tag: "latest"
