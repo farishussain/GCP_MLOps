@@ -1,0 +1,917 @@
+[
+  {
+    "insertId": "nlz0byf48pf66",
+    "jsonPayload": {
+      "message": "WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv",
+      "levelname": "ERROR"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "project_id": "mlops-295610",
+        "task_name": "workerpool0-0",
+        "job_id": "5731163729391779840"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:01.602871130Z",
+    "severity": "ERROR",
+    "labels": {
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": "",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/trial_type": ""
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:04.183228648Z"
+  },
+  {
+    "insertId": "1w02qopfe6rnor",
+    "jsonPayload": {
+      "message": "WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv",
+      "levelname": "ERROR"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "project_id": "mlops-295610",
+        "task_name": "workerpool0-0",
+        "job_id": "5731163729391779840"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:06.091410845Z",
+    "severity": "ERROR",
+    "labels": {
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/trial_id": "",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/trial_type": ""
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:08.866070286Z"
+  },
+  {
+    "insertId": "1w02qopfe6rnos",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": ""
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "project_id": "mlops-295610",
+        "job_id": "5731163729391779840",
+        "task_name": "workerpool0-0"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:06.508238937Z",
+    "severity": "ERROR",
+    "labels": {
+      "ml.googleapis.com/trial_id": "",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/trial_type": ""
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:08.866070286Z"
+  },
+  {
+    "insertId": "1w02qopfe6rnot",
+    "jsonPayload": {
+      "message": "[notice] A new release of pip is available: 23.0.1 -> 25.3",
+      "levelname": "ERROR"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "job_id": "5731163729391779840",
+        "task_name": "workerpool0-0",
+        "project_id": "mlops-295610"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:06.508294226Z",
+    "severity": "ERROR",
+    "labels": {
+      "ml.googleapis.com/trial_type": "",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/trial_id": "",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/job_id/log_area": "root"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:08.866070286Z"
+  },
+  {
+    "insertId": "1w02qopfe6rnou",
+    "jsonPayload": {
+      "message": "[notice] To update, run: pip install --upgrade pip",
+      "levelname": "ERROR"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "project_id": "mlops-295610",
+        "task_name": "workerpool0-0",
+        "job_id": "5731163729391779840"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:06.508309998Z",
+    "severity": "ERROR",
+    "labels": {
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": "",
+      "ml.googleapis.com/trial_type": "",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/tpu_worker_id": ""
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:08.866070286Z"
+  },
+  {
+    "insertId": "imwajsfbjkdll",
+    "jsonPayload": {
+      "message": "Traceback (most recent call last):",
+      "levelname": "ERROR"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "job_id": "5731163729391779840",
+        "project_id": "mlops-295610",
+        "task_name": "workerpool0-0"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954384029Z",
+    "severity": "ERROR",
+    "labels": {
+      "ml.googleapis.com/tpu_worker_id": "",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/trial_id": "",
+      "ml.googleapis.com/trial_type": ""
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdlm",
+    "jsonPayload": {
+      "message": "  File \"/usr/local/lib/python3.9/runpy.py\", line 197, in _run_module_as_main",
+      "levelname": "ERROR"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "job_id": "5731163729391779840",
+        "task_name": "workerpool0-0",
+        "project_id": "mlops-295610"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954425391Z",
+    "severity": "ERROR",
+    "labels": {
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/trial_id": "",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/trial_type": ""
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdln",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "    return _run_code(code, main_globals, None,"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "job_id": "5731163729391779840",
+        "task_name": "workerpool0-0",
+        "project_id": "mlops-295610"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954438912Z",
+    "severity": "ERROR",
+    "labels": {
+      "ml.googleapis.com/tpu_worker_id": "",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/trial_type": "",
+      "ml.googleapis.com/trial_id": "",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "compute.googleapis.com/zone": "us-central1-c"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdlo",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "  File \"/usr/local/lib/python3.9/runpy.py\", line 87, in _run_code"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "project_id": "mlops-295610",
+        "job_id": "5731163729391779840",
+        "task_name": "workerpool0-0"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954451823Z",
+    "severity": "ERROR",
+    "labels": {
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/trial_type": "",
+      "ml.googleapis.com/trial_id": "",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/tpu_worker_id": ""
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdlp",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "    exec(code, run_globals)"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "project_id": "mlops-295610",
+        "job_id": "5731163729391779840",
+        "task_name": "workerpool0-0"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954464748Z",
+    "severity": "ERROR",
+    "labels": {
+      "ml.googleapis.com/trial_type": "",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdlq",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "  File \"/usr/local/lib/python3.9/site-packages/kfp/dsl/executor_main.py\", line 109, in <module>"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "project_id": "mlops-295610",
+        "job_id": "5731163729391779840",
+        "task_name": "workerpool0-0"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954476972Z",
+    "severity": "ERROR",
+    "labels": {
+      "ml.googleapis.com/trial_type": "",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/trial_id": "",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdlr",
+    "jsonPayload": {
+      "message": "    executor_main()",
+      "levelname": "ERROR"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "project_id": "mlops-295610",
+        "job_id": "5731163729391779840",
+        "task_name": "workerpool0-0"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954493369Z",
+    "severity": "ERROR",
+    "labels": {
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "ml.googleapis.com/trial_id": "",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_type": "",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdls",
+    "jsonPayload": {
+      "message": "  File \"/usr/local/lib/python3.9/site-packages/kfp/dsl/executor_main.py\", line 101, in executor_main",
+      "levelname": "ERROR"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "project_id": "mlops-295610",
+        "task_name": "workerpool0-0",
+        "job_id": "5731163729391779840"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954526031Z",
+    "severity": "ERROR",
+    "labels": {
+      "compute.googleapis.com/zone": "us-central1-c",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_type": "",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdlt",
+    "jsonPayload": {
+      "message": "    output_file = executor.execute()",
+      "levelname": "ERROR"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "task_name": "workerpool0-0",
+        "project_id": "mlops-295610",
+        "job_id": "5731163729391779840"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954537790Z",
+    "severity": "ERROR",
+    "labels": {
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/trial_id": "",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/trial_type": ""
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdlu",
+    "jsonPayload": {
+      "message": "  File \"/usr/local/lib/python3.9/site-packages/kfp/dsl/executor.py\", line 377, in execute",
+      "levelname": "ERROR"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "project_id": "mlops-295610",
+        "task_name": "workerpool0-0",
+        "job_id": "5731163729391779840"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954551064Z",
+    "severity": "ERROR",
+    "labels": {
+      "ml.googleapis.com/trial_id": "",
+      "ml.googleapis.com/trial_type": "",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/resource_id": "6666797193691210594"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdlv",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "    result = self.func(**func_kwargs)"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "task_name": "workerpool0-0",
+        "job_id": "5731163729391779840",
+        "project_id": "mlops-295610"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954568012Z",
+    "severity": "ERROR",
+    "labels": {
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/trial_id": "",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_type": "",
+      "compute.googleapis.com/zone": "us-central1-c"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdlw",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "  File \"/tmp/tmp.XYGpI7uRey/ephemeral_component.py\", line 13, in model_evaluation_component"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "job_id": "5731163729391779840",
+        "project_id": "mlops-295610",
+        "task_name": "workerpool0-0"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954616296Z",
+    "severity": "ERROR",
+    "labels": {
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": "",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/trial_type": "",
+      "compute.googleapis.com/zone": "us-central1-c"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdlx",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "    import pandas as pd"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "project_id": "mlops-295610",
+        "job_id": "5731163729391779840",
+        "task_name": "workerpool0-0"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954629902Z",
+    "severity": "ERROR",
+    "labels": {
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/trial_type": "",
+      "ml.googleapis.com/trial_id": "",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "compute.googleapis.com/resource_id": "6666797193691210594"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdly",
+    "jsonPayload": {
+      "message": "  File \"/usr/local/lib/python3.9/site-packages/pandas/__init__.py\", line 22, in <module>",
+      "levelname": "ERROR"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "task_name": "workerpool0-0",
+        "job_id": "5731163729391779840",
+        "project_id": "mlops-295610"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954644010Z",
+    "severity": "ERROR",
+    "labels": {
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/trial_type": "",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": "",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdlz",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "    from pandas.compat import is_numpy_dev as _is_numpy_dev  # pyright: ignore # noqa:F401"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "task_name": "workerpool0-0",
+        "project_id": "mlops-295610",
+        "job_id": "5731163729391779840"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954684043Z",
+    "severity": "ERROR",
+    "labels": {
+      "ml.googleapis.com/trial_id": "",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "ml.googleapis.com/trial_type": "",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdm0",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "  File \"/usr/local/lib/python3.9/site-packages/pandas/compat/__init__.py\", line 25, in <module>"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "project_id": "mlops-295610",
+        "task_name": "workerpool0-0",
+        "job_id": "5731163729391779840"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954696291Z",
+    "severity": "ERROR",
+    "labels": {
+      "ml.googleapis.com/trial_type": "",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_id": "",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/resource_id": "6666797193691210594"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdm1",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "    from pandas.compat.numpy import ("
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "task_name": "workerpool0-0",
+        "job_id": "5731163729391779840",
+        "project_id": "mlops-295610"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954707677Z",
+    "severity": "ERROR",
+    "labels": {
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "ml.googleapis.com/trial_type": "",
+      "ml.googleapis.com/trial_id": "",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdm2",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "  File \"/usr/local/lib/python3.9/site-packages/pandas/compat/numpy/__init__.py\", line 4, in <module>"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "job_id": "5731163729391779840",
+        "task_name": "workerpool0-0",
+        "project_id": "mlops-295610"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954719487Z",
+    "severity": "ERROR",
+    "labels": {
+      "ml.googleapis.com/trial_type": "",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/trial_id": "",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/zone": "us-central1-c"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdm3",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "    from pandas.util.version import Version"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "project_id": "mlops-295610",
+        "job_id": "5731163729391779840",
+        "task_name": "workerpool0-0"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954730871Z",
+    "severity": "ERROR",
+    "labels": {
+      "ml.googleapis.com/tpu_worker_id": "",
+      "ml.googleapis.com/trial_id": "",
+      "ml.googleapis.com/trial_type": "",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/job_id/log_area": "root"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdm4",
+    "jsonPayload": {
+      "message": "  File \"/usr/local/lib/python3.9/site-packages/pandas/util/__init__.py\", line 2, in <module>",
+      "levelname": "ERROR"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "task_name": "workerpool0-0",
+        "project_id": "mlops-295610",
+        "job_id": "5731163729391779840"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954751390Z",
+    "severity": "ERROR",
+    "labels": {
+      "ml.googleapis.com/trial_type": "",
+      "ml.googleapis.com/trial_id": "",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "compute.googleapis.com/resource_id": "6666797193691210594"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdm5",
+    "jsonPayload": {
+      "message": "    from pandas.util._decorators import (  # noqa:F401",
+      "levelname": "ERROR"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "project_id": "mlops-295610",
+        "job_id": "5731163729391779840",
+        "task_name": "workerpool0-0"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954774374Z",
+    "severity": "ERROR",
+    "labels": {
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "ml.googleapis.com/trial_id": "",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/trial_type": ""
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdm6",
+    "jsonPayload": {
+      "message": "  File \"/usr/local/lib/python3.9/site-packages/pandas/util/_decorators.py\", line 14, in <module>",
+      "levelname": "ERROR"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "project_id": "mlops-295610",
+        "job_id": "5731163729391779840",
+        "task_name": "workerpool0-0"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954789984Z",
+    "severity": "ERROR",
+    "labels": {
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/trial_id": "",
+      "ml.googleapis.com/trial_type": "",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/resource_id": "6666797193691210594"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdm7",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "    from pandas._libs.properties import cache_readonly"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "project_id": "mlops-295610",
+        "task_name": "workerpool0-0",
+        "job_id": "5731163729391779840"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954802485Z",
+    "severity": "ERROR",
+    "labels": {
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/trial_type": "",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/trial_id": ""
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdm8",
+    "jsonPayload": {
+      "message": "  File \"/usr/local/lib/python3.9/site-packages/pandas/_libs/__init__.py\", line 13, in <module>",
+      "levelname": "ERROR"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "task_name": "workerpool0-0",
+        "job_id": "5731163729391779840",
+        "project_id": "mlops-295610"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954814369Z",
+    "severity": "ERROR",
+    "labels": {
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/trial_id": "",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/trial_type": ""
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdm9",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "    from pandas._libs.interval import Interval"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "task_name": "workerpool0-0",
+        "job_id": "5731163729391779840",
+        "project_id": "mlops-295610"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954826113Z",
+    "severity": "ERROR",
+    "labels": {
+      "ml.googleapis.com/job_id/log_area": "root",
+      "ml.googleapis.com/trial_type": "",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/trial_id": "",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "ml.googleapis.com/tpu_worker_id": ""
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdma",
+    "jsonPayload": {
+      "levelname": "ERROR",
+      "message": "  File \"pandas/_libs/interval.pyx\", line 1, in init pandas._libs.interval"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "job_id": "5731163729391779840",
+        "task_name": "workerpool0-0",
+        "project_id": "mlops-295610"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954839764Z",
+    "severity": "ERROR",
+    "labels": {
+      "ml.googleapis.com/tpu_worker_id": "",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/trial_type": "",
+      "ml.googleapis.com/trial_id": "",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "ml.googleapis.com/job_id/log_area": "root"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "insertId": "imwajsfbjkdmb",
+    "jsonPayload": {
+      "message": "ValueError: numpy.dtype size changed, may indicate binary incompatibility. Expected 96 from C header, got 88 from PyObject",
+      "levelname": "ERROR"
+    },
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "task_name": "workerpool0-0",
+        "job_id": "5731163729391779840",
+        "project_id": "mlops-295610"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:08.954851169Z",
+    "severity": "ERROR",
+    "labels": {
+      "ml.googleapis.com/trial_type": "",
+      "ml.googleapis.com/tpu_worker_id": "",
+      "ml.googleapis.com/trial_id": "",
+      "compute.googleapis.com/zone": "us-central1-c",
+      "ml.googleapis.com/job_id/log_area": "root",
+      "compute.googleapis.com/resource_id": "6666797193691210594",
+      "compute.googleapis.com/resource_name": "gke-cml-1124-180021--e2-highmem-2-43e-b5ed0796-zcfm"
+    },
+    "logName": "projects/mlops-295610/logs/workerpool0-0",
+    "receiveTimestamp": "2025-11-24T18:14:11.069455044Z"
+  },
+  {
+    "textPayload": "The replica workerpool0-0 exited with a non-zero status of 1. Termination reason: Error. To find out more about why your job exited please check the logs: https://console.cloud.google.com/logs/viewer?project=293997883832&resource=ml_job%2Fjob_id%2F5731163729391779840&advancedFilter=resource.type%3D%22ml_job%22%0Aresource.labels.job_id%3D%225731163729391779840%22",
+    "insertId": "gp0f3zdjve5",
+    "resource": {
+      "type": "ml_job",
+      "labels": {
+        "task_name": "service",
+        "job_id": "5731163729391779840",
+        "project_id": "mlops-295610"
+      }
+    },
+    "timestamp": "2025-11-24T18:14:17.667796914Z",
+    "severity": "ERROR",
+    "labels": {
+      "ml.googleapis.com/endpoint": ""
+    },
+    "logName": "projects/mlops-295610/logs/ml.googleapis.com%2F5731163729391779840",
+    "receiveTimestamp": "2025-11-24T18:14:19.090230863Z"
+  }
+]

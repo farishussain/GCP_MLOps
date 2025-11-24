@@ -1,0 +1,242 @@
+{
+  "components": {
+    "comp-data-preprocessing-component": {
+      "executorLabel": "exec-data-preprocessing-component",
+      "outputDefinitions": {
+        "artifacts": {
+          "preprocessing_metrics": {
+            "artifactType": {
+              "schemaTitle": "system.Metrics",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "processed_data": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-model-evaluation-component": {
+      "executorLabel": "exec-model-evaluation-component",
+      "inputDefinitions": {
+        "artifacts": {
+          "processed_data": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "trained_model": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "evaluation_metrics": {
+            "artifactType": {
+              "schemaTitle": "system.Metrics",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-model-training-component": {
+      "executorLabel": "exec-model-training-component",
+      "inputDefinitions": {
+        "artifacts": {
+          "processed_data": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "trained_model": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "training_metrics": {
+            "artifactType": {
+              "schemaTitle": "system.Metrics",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultPipelineRoot": "gs://mlops-295610-vertex-ai-staging/pipeline-artifacts",
+  "deploymentSpec": {
+    "executors": {
+      "exec-data-preprocessing-component": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "data_preprocessing_component"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'pandas==2.0.3' 'numpy==1.24.3' 'scikit-learn==1.3.0'  &&  python3 -m pip install --quiet --no-warn-script-location 'kfp==2.14.6' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef data_preprocessing_component(\n    processed_data: Output[Dataset],\n    preprocessing_metrics: Output[Metrics]\n):\n    \"\"\"Data preprocessing component for Iris dataset\"\"\"\n    import pandas as pd\n    import numpy as np\n    from sklearn.model_selection import train_test_split\n    from sklearn.preprocessing import StandardScaler, LabelEncoder\n    from sklearn.datasets import load_iris\n    import json\n    import pickle\n    import os\n\n    print(\"\ud83d\udd04 Starting data preprocessing...\")\n\n    # Load Iris dataset\n    iris = load_iris()\n    df = pd.DataFrame(iris.data, columns=iris.feature_names)\n    df['species'] = iris.target_names[iris.target]\n\n    print(f\"\u2705 Loaded Iris dataset: {df.shape}\")\n\n    # Basic preprocessing\n    print(\"\ud83e\uddf9 Preprocessing data...\")\n\n    # Feature engineering\n    df['sepal_area'] = df['sepal length (cm)'] * df['sepal width (cm)']\n    df['petal_area'] = df['petal length (cm)'] * df['petal width (cm)']\n\n    # Prepare features and target\n    feature_cols = [col for col in df.columns if col != 'species']\n    X = df[feature_cols]\n    y = df['species']\n\n    # Encode target labels\n    label_encoder = LabelEncoder()\n    y_encoded = label_encoder.fit_transform(y)\n\n    # Train/test split\n    X_train, X_test, y_train, y_test = train_test_split(\n        X, y_encoded, test_size=0.2, random_state=42, stratify=y_encoded\n    )\n\n    # Scale features\n    scaler = StandardScaler()\n    X_train_scaled = scaler.fit_transform(X_train)\n    X_test_scaled = scaler.transform(X_test)\n\n    # Create processed datasets\n    train_df = pd.DataFrame(X_train_scaled, columns=feature_cols)\n    train_df['species'] = y_train\n\n    test_df = pd.DataFrame(X_test_scaled, columns=feature_cols)\n    test_df['species'] = y_test\n\n    print(f\"\u2705 Preprocessing complete:\")\n    print(f\"   Training: {train_df.shape}\")\n    print(f\"   Test: {test_df.shape}\")\n\n    # Save processed data\n    os.makedirs(processed_data.path, exist_ok=True)\n\n    train_df.to_csv(f\"{processed_data.path}/train.csv\", index=False)\n    test_df.to_csv(f\"{processed_data.path}/test.csv\", index=False)\n\n    # Save preprocessing metadata\n    metadata = {\n        'feature_columns': feature_cols,\n        'target_classes': label_encoder.classes_.tolist(),\n        'scaler_mean': scaler.mean_.tolist(),\n        'scaler_scale': scaler.scale_.tolist()\n    }\n\n    with open(f\"{processed_data.path}/metadata.json\", 'w') as f:\n        json.dump(metadata, f)\n\n    # Record metrics\n    preprocessing_metrics.log_metric('training_samples', len(train_df))\n    preprocessing_metrics.log_metric('test_samples', len(test_df))\n    preprocessing_metrics.log_metric('feature_count', len(feature_cols))\n\n    print(\"\u2705 Data preprocessing component completed\")\n\n"
+          ],
+          "image": "python:3.9-slim",
+          "resources": {
+            "cpuLimit": 1.0,
+            "memoryLimit": 2.147483648,
+            "resourceCpuLimit": "1",
+            "resourceMemoryLimit": "2Gi"
+          }
+        }
+      },
+      "exec-model-evaluation-component": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "model_evaluation_component"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'pandas==2.0.3' 'scikit-learn==1.3.0'  &&  python3 -m pip install --quiet --no-warn-script-location 'kfp==2.14.6' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef model_evaluation_component(\n    processed_data: Input[Dataset],\n    trained_model: Input[Model],\n    evaluation_metrics: Output[Metrics]\n):\n    \"\"\"Model evaluation component\"\"\"\n    import pandas as pd\n    import pickle\n    import json\n    from sklearn.metrics import accuracy_score, precision_recall_fscore_support\n    from datetime import datetime\n\n    print(\"\ud83d\udcca Starting model evaluation...\")\n\n    # Load test data\n    test_df = pd.read_csv(f\"{processed_data.path}/test.csv\")\n\n    # Load metadata\n    with open(f\"{processed_data.path}/metadata.json\", 'r') as f:\n        data_metadata = json.load(f)\n\n    with open(f\"{trained_model.path}/metadata.json\", 'r') as f:\n        model_metadata = json.load(f)\n\n    # Load trained model\n    with open(f\"{trained_model.path}/model.pkl\", 'rb') as f:\n        model = pickle.load(f)\n\n    # Prepare test data\n    feature_columns = data_metadata['feature_columns']\n    X_test = test_df[feature_columns]\n    y_test = test_df['species']\n\n    print(f\"\u2705 Loaded model: {model_metadata['model_name']}\")\n    print(f\"   Test data: {X_test.shape}\")\n\n    # Make predictions\n    y_pred = model.predict(X_test)\n\n    # Calculate metrics\n    accuracy = accuracy_score(y_test, y_pred)\n    precision, recall, f1, _ = precision_recall_fscore_support(y_test, y_pred, average='weighted')\n\n    print(f\"\ud83d\udcc8 Evaluation Results:\")\n    print(f\"   Accuracy: {accuracy:.4f}\")\n    print(f\"   Precision: {precision:.4f}\")\n    print(f\"   Recall: {recall:.4f}\")\n    print(f\"   F1-Score: {f1:.4f}\")\n\n    # Log metrics\n    evaluation_metrics.log_metric('accuracy', accuracy)\n    evaluation_metrics.log_metric('precision', precision)\n    evaluation_metrics.log_metric('recall', recall)\n    evaluation_metrics.log_metric('f1_score', f1)\n    evaluation_metrics.log_metric('test_samples', len(X_test))\n\n    # Determine if model passes quality gates\n    quality_threshold = 0.85\n    passes_quality = accuracy >= quality_threshold\n\n    evaluation_metrics.log_metric('passes_quality_gate', int(passes_quality))\n    evaluation_metrics.log_metric('quality_threshold', quality_threshold)\n\n    print(f\"\u2705 Quality Gate: {'PASSED' if passes_quality else 'FAILED'}\")\n    print(\"\u2705 Model evaluation component completed\")\n\n"
+          ],
+          "image": "python:3.9-slim",
+          "resources": {
+            "cpuLimit": 1.0,
+            "memoryLimit": 2.147483648,
+            "resourceCpuLimit": "1",
+            "resourceMemoryLimit": "2Gi"
+          }
+        }
+      },
+      "exec-model-training-component": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "model_training_component"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'pandas==2.0.3' 'numpy==1.24.3' 'scikit-learn==1.3.0'  &&  python3 -m pip install --quiet --no-warn-script-location 'kfp==2.14.6' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef model_training_component(\n    processed_data: Input[Dataset],\n    trained_model: Output[Model],\n    training_metrics: Output[Metrics]\n):\n    \"\"\"Model training component\"\"\"\n    import pandas as pd\n    import numpy as np\n    import pickle\n    import json\n    from datetime import datetime\n    from sklearn.ensemble import RandomForestClassifier\n    from sklearn.linear_model import LogisticRegression\n    from sklearn.metrics import accuracy_score, classification_report\n    import os\n\n    print(\"\ud83e\udd16 Starting model training...\")\n\n    # Load processed data\n    train_df = pd.read_csv(f\"{processed_data.path}/train.csv\")\n    test_df = pd.read_csv(f\"{processed_data.path}/test.csv\")\n\n    with open(f\"{processed_data.path}/metadata.json\", 'r') as f:\n        metadata = json.load(f)\n\n    feature_columns = metadata['feature_columns']\n\n    # Prepare training data\n    X_train = train_df[feature_columns]\n    y_train = train_df['species']\n    X_test = test_df[feature_columns]\n    y_test = test_df['species']\n\n    print(f\"\u2705 Data loaded: Train {X_train.shape}, Test {X_test.shape}\")\n\n    # Train multiple models\n    models = {\n        'random_forest': RandomForestClassifier(n_estimators=100, random_state=42),\n        'logistic_regression': LogisticRegression(random_state=42, max_iter=1000)\n    }\n\n    print(\"\ud83c\udfc3 Training models...\")\n\n    results = {}\n    best_accuracy = 0\n    best_model = None\n    best_model_name = None\n\n    for name, model in models.items():\n        print(f\"   Training {name}...\")\n        model.fit(X_train, y_train)\n\n        test_pred = model.predict(X_test)\n        accuracy = accuracy_score(y_test, test_pred)\n\n        results[name] = {\n            'model': model,\n            'accuracy': accuracy\n        }\n\n        print(f\"   \u2705 {name}: {accuracy:.4f}\")\n\n        if accuracy > best_accuracy:\n            best_accuracy = accuracy\n            best_model = model\n            best_model_name = name\n\n    print(f\"\ud83c\udfc6 Best model: {best_model_name} ({best_accuracy:.4f})\")\n\n    # Save best model\n    os.makedirs(trained_model.path, exist_ok=True)\n\n    with open(f\"{trained_model.path}/model.pkl\", 'wb') as f:\n        pickle.dump(best_model, f)\n\n    # Save model metadata\n    model_metadata = {\n        'model_name': best_model_name,\n        'accuracy': best_accuracy,\n        'training_time': datetime.now().isoformat(),\n        'feature_columns': feature_columns,\n        'target_classes': metadata['target_classes']\n    }\n\n    with open(f\"{trained_model.path}/metadata.json\", 'w') as f:\n        json.dump(model_metadata, f)\n\n    # Log metrics\n    training_metrics.log_metric('best_accuracy', best_accuracy)\n    training_metrics.log_metric('models_trained', len(models))\n\n    print(\"\u2705 Model training component completed\")\n\n"
+          ],
+          "image": "python:3.9-slim",
+          "resources": {
+            "cpuLimit": 2.0,
+            "memoryLimit": 4.294967296,
+            "resourceCpuLimit": "2",
+            "resourceMemoryLimit": "4Gi"
+          }
+        }
+      }
+    }
+  },
+  "pipelineInfo": {
+    "description": "Complete MLOps pipeline for Iris classification",
+    "name": "iris-mlops-pipeline"
+  },
+  "root": {
+    "dag": {
+      "tasks": {
+        "data-preprocessing-component": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-data-preprocessing-component"
+          },
+          "taskInfo": {
+            "name": "Data Preprocessing"
+          }
+        },
+        "model-evaluation-component": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-model-evaluation-component"
+          },
+          "dependentTasks": [
+            "data-preprocessing-component",
+            "model-training-component"
+          ],
+          "inputs": {
+            "artifacts": {
+              "processed_data": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "processed_data",
+                  "producerTask": "data-preprocessing-component"
+                }
+              },
+              "trained_model": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "trained_model",
+                  "producerTask": "model-training-component"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "Model Evaluation"
+          }
+        },
+        "model-training-component": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-model-training-component"
+          },
+          "dependentTasks": [
+            "data-preprocessing-component"
+          ],
+          "inputs": {
+            "artifacts": {
+              "processed_data": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "processed_data",
+                  "producerTask": "data-preprocessing-component"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "Model Training"
+          }
+        }
+      }
+    }
+  },
+  "schemaVersion": "2.1.0",
+  "sdkVersion": "kfp-2.14.6"
+}

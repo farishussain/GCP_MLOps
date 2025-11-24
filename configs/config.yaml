@@ -15,7 +15,7 @@ gcp:
   
 # Cloud Storage Configuration
 storage:
-  bucket_name: "mlops-vertex-ai-bucket-1763645074"
+  bucket_name: "mlops-vertex-ai-bucket-1763985874"
   data_path: "data/"
   models_path: "models/"
   pipelines_path: "pipelines/"
@@ -24,7 +24,7 @@ storage:
 # Vertex AI Configuration
 vertex_ai:
   location: "us-central1"
-  staging_bucket: "mlops-vertex-ai-bucket-1763645074"
+  staging_bucket: "mlops-vertex-ai-bucket-1763985874"
   
 # Model Configuration
 model:

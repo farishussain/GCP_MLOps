@@ -1,0 +1,236 @@
+{
+  "components": {
+    "comp-data-preprocessing-conservative": {
+      "executorLabel": "exec-data-preprocessing-conservative",
+      "outputDefinitions": {
+        "artifacts": {
+          "processed_data": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-model-evaluation-conservative": {
+      "executorLabel": "exec-model-evaluation-conservative",
+      "inputDefinitions": {
+        "artifacts": {
+          "processed_data": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "trained_model": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "evaluation_metrics": {
+            "artifactType": {
+              "schemaTitle": "system.Metrics",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "comp-model-training-conservative": {
+      "executorLabel": "exec-model-training-conservative",
+      "inputDefinitions": {
+        "artifacts": {
+          "processed_data": {
+            "artifactType": {
+              "schemaTitle": "system.Dataset",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      },
+      "outputDefinitions": {
+        "artifacts": {
+          "trained_model": {
+            "artifactType": {
+              "schemaTitle": "system.Model",
+              "schemaVersion": "0.0.1"
+            }
+          },
+          "training_metrics": {
+            "artifactType": {
+              "schemaTitle": "system.Metrics",
+              "schemaVersion": "0.0.1"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultPipelineRoot": "gs://mlops-295610-vertex-ai-staging/pipeline-artifacts",
+  "deploymentSpec": {
+    "executors": {
+      "exec-data-preprocessing-conservative": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "data_preprocessing_conservative"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'numpy==1.19.5' 'pandas==1.2.5' 'scikit-learn==0.24.2'  &&  python3 -m pip install --quiet --no-warn-script-location 'kfp==2.14.6' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef data_preprocessing_conservative(\n    processed_data: Output[Dataset]\n):\n    \"\"\"Ultra-conservative data preprocessing with ancient packages\"\"\"\n    import pandas as pd\n    import numpy as np\n    from sklearn.model_selection import train_test_split\n    from sklearn.preprocessing import LabelEncoder\n    import json\n    import os\n\n    print(\"\ud83d\udd27 Ultra-conservative preprocessing starting...\")\n    print(f\"NumPy: {np.__version__}, Pandas: {pd.__version__}\")\n\n    # Create Iris dataset (hardcoded for reliability)\n    data = {\n        'sepal_length': [5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4.4, 4.9] * 15,\n        'sepal_width': [3.5, 3.0, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1] * 15,\n        'petal_length': [1.4, 1.4, 1.3, 1.5, 1.4, 1.7, 1.4, 1.5, 1.4, 1.5] * 15,\n        'petal_width': [0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1] * 15,\n        'species': ['setosa'] * 50 + ['versicolor'] * 50 + ['virginica'] * 50\n    }\n\n    df = pd.DataFrame(data)\n\n    # Simple preprocessing\n    feature_columns = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width']\n\n    # Train-test split\n    X = df[feature_columns]\n    y = df['species']\n    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\n    # Combine back\n    train_df = X_train.copy()\n    train_df['species'] = y_train\n\n    test_df = X_test.copy() \n    test_df['species'] = y_test\n\n    # Save data\n    os.makedirs(processed_data.path, exist_ok=True)\n    train_df.to_csv(f\"{processed_data.path}/train.csv\", index=False)\n    test_df.to_csv(f\"{processed_data.path}/test.csv\", index=False)\n\n    # Save metadata\n    metadata = {\n        'feature_columns': feature_columns,\n        'target_classes': list(df['species'].unique()),\n        'train_samples': len(train_df),\n        'test_samples': len(test_df)\n    }\n\n    with open(f\"{processed_data.path}/metadata.json\", 'w') as f:\n        json.dump(metadata, f)\n\n    print(\"\u2705 Ultra-conservative preprocessing complete!\")\n\n"
+          ],
+          "image": "python:3.9-slim",
+          "resources": {
+            "cpuLimit": 0.5,
+            "memoryLimit": 1.073741824,
+            "resourceCpuLimit": "0.5",
+            "resourceMemoryLimit": "1Gi"
+          }
+        }
+      },
+      "exec-model-evaluation-conservative": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "model_evaluation_conservative"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'numpy==1.19.5' 'pandas==1.2.5' 'scikit-learn==0.24.2'  &&  python3 -m pip install --quiet --no-warn-script-location 'kfp==2.14.6' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef model_evaluation_conservative(\n    processed_data: Input[Dataset],\n    trained_model: Input[Model],\n    evaluation_metrics: Output[Metrics]\n):\n    \"\"\"Ultra-conservative model evaluation\"\"\"\n    import pandas as pd\n    import pickle\n    import json\n    from sklearn.metrics import accuracy_score\n\n    print(\"\ud83d\udcca Ultra-conservative evaluation starting...\")\n\n    # Load test data\n    test_df = pd.read_csv(f\"{processed_data.path}/test.csv\")\n\n    with open(f\"{processed_data.path}/metadata.json\", 'r') as f:\n        metadata = json.load(f)\n\n    # Load model\n    with open(f\"{trained_model.path}/model.pkl\", 'rb') as f:\n        model = pickle.load(f)\n\n    # Evaluate\n    feature_columns = metadata['feature_columns']\n    X_test = test_df[feature_columns]\n    y_test = test_df['species']\n\n    y_pred = model.predict(X_test)\n    accuracy = accuracy_score(y_test, y_pred)\n\n    print(f\"Test accuracy: {accuracy:.4f}\")\n\n    # Log metrics\n    evaluation_metrics.log_metric('accuracy', accuracy)\n    evaluation_metrics.log_metric('passes_quality', int(accuracy > 0.8))\n\n    print(\"\u2705 Ultra-conservative evaluation complete!\")\n\n"
+          ],
+          "image": "python:3.9-slim",
+          "resources": {
+            "cpuLimit": 0.5,
+            "memoryLimit": 1.073741824,
+            "resourceCpuLimit": "0.5",
+            "resourceMemoryLimit": "1Gi"
+          }
+        }
+      },
+      "exec-model-training-conservative": {
+        "container": {
+          "args": [
+            "--executor_input",
+            "{{$}}",
+            "--function_to_execute",
+            "model_training_conservative"
+          ],
+          "command": [
+            "sh",
+            "-c",
+            "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location 'numpy==1.19.5' 'pandas==1.2.5' 'scikit-learn==0.24.2'  &&  python3 -m pip install --quiet --no-warn-script-location 'kfp==2.14.6' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"' && \"$0\" \"$@\"\n",
+            "sh",
+            "-ec",
+            "program_path=$(mktemp -d)\n\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\n_KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+            "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import *\n\ndef model_training_conservative(\n    processed_data: Input[Dataset],\n    trained_model: Output[Model],\n    training_metrics: Output[Metrics]\n):\n    \"\"\"Ultra-conservative model training\"\"\"\n    import pandas as pd\n    import numpy as np\n    import pickle\n    import json\n    from sklearn.ensemble import RandomForestClassifier\n    from sklearn.metrics import accuracy_score\n    from datetime import datetime\n    import os\n\n    print(\"\ud83e\udd16 Ultra-conservative training starting...\")\n\n    # Load training data\n    train_df = pd.read_csv(f\"{processed_data.path}/train.csv\")\n\n    with open(f\"{processed_data.path}/metadata.json\", 'r') as f:\n        metadata = json.load(f)\n\n    # Prepare training data\n    feature_columns = metadata['feature_columns']\n    X_train = train_df[feature_columns]\n    y_train = train_df['species']\n\n    # Simple, reliable model\n    model = RandomForestClassifier(n_estimators=10, random_state=42)\n    model.fit(X_train, y_train)\n\n    # Quick validation\n    accuracy = accuracy_score(y_train, model.predict(X_train))\n    print(f\"Training accuracy: {accuracy:.4f}\")\n\n    # Save model\n    os.makedirs(trained_model.path, exist_ok=True)\n    with open(f\"{trained_model.path}/model.pkl\", 'wb') as f:\n        pickle.dump(model, f)\n\n    # Save metadata\n    model_metadata = {\n        'model_name': 'RandomForest-Conservative',\n        'accuracy': accuracy,\n        'training_time': datetime.now().isoformat()\n    }\n\n    with open(f\"{trained_model.path}/metadata.json\", 'w') as f:\n        json.dump(model_metadata, f)\n\n    # Log metrics\n    training_metrics.log_metric('accuracy', accuracy)\n\n    print(\"\u2705 Ultra-conservative training complete!\")\n\n"
+          ],
+          "image": "python:3.9-slim",
+          "resources": {
+            "cpuLimit": 1.0,
+            "memoryLimit": 2.147483648,
+            "resourceCpuLimit": "1",
+            "resourceMemoryLimit": "2Gi"
+          }
+        }
+      }
+    }
+  },
+  "pipelineInfo": {
+    "description": "Ultra-conservative MLOps pipeline with bulletproof package versions",
+    "name": "iris-conservative-pipeline"
+  },
+  "root": {
+    "dag": {
+      "tasks": {
+        "data-preprocessing-conservative": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-data-preprocessing-conservative"
+          },
+          "taskInfo": {
+            "name": "Conservative Preprocessing"
+          }
+        },
+        "model-evaluation-conservative": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-model-evaluation-conservative"
+          },
+          "dependentTasks": [
+            "data-preprocessing-conservative",
+            "model-training-conservative"
+          ],
+          "inputs": {
+            "artifacts": {
+              "processed_data": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "processed_data",
+                  "producerTask": "data-preprocessing-conservative"
+                }
+              },
+              "trained_model": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "trained_model",
+                  "producerTask": "model-training-conservative"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "Conservative Evaluation"
+          }
+        },
+        "model-training-conservative": {
+          "cachingOptions": {
+            "enableCache": true
+          },
+          "componentRef": {
+            "name": "comp-model-training-conservative"
+          },
+          "dependentTasks": [
+            "data-preprocessing-conservative"
+          ],
+          "inputs": {
+            "artifacts": {
+              "processed_data": {
+                "taskOutputArtifact": {
+                  "outputArtifactKey": "processed_data",
+                  "producerTask": "data-preprocessing-conservative"
+                }
+              }
+            }
+          },
+          "taskInfo": {
+            "name": "Conservative Training"
+          }
+        }
+      }
+    }
+  },
+  "schemaVersion": "2.1.0",
+  "sdkVersion": "kfp-2.14.6"
+}
